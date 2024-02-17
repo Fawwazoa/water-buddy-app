@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "678743541446",
+    "project_id": "water-buddy-80951",
+    "storage_bucket": "water-buddy-80951.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:678743541446:android:5709f8cf7871404cf0b9c7",
+        "android_client_info": {
+          "package_name": "com.example.waterbuddy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9lfHaDSEK7JiXIaxlhQs8dgNled-tBBw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
