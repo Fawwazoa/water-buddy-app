@@ -1,1 +1,1 @@
-# water-bddy-app
+# water-buddy-app
