@@ -34,17 +34,24 @@ class _SplashViewbodyState extends State<SplashViewbody>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: [
-          const SizedBox(
-            height: 60,
-          ),
-          Center(child: Image.asset(AssetsPath.logo)),
-          const SizedBox(
-            height: 10,
-          ),
-          slidingText(slidingAnimation: slidingAnimation),
-        ],
+      body: Center(
+        child: ListView(
+          children: [
+            const SizedBox(
+              height: 200,
+            ),
+            Center(
+                child: Image.asset(
+              AssetsPath.logo,
+              height: 190,
+              width: 190,
+            )),
+            const SizedBox(
+              height: 10,
+            ),
+            slidingText(slidingAnimation: slidingAnimation),
+          ],
+        ),
       ),
     );
   }

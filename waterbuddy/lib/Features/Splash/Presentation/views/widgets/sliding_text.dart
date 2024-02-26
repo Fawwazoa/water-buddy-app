@@ -16,7 +16,8 @@ class slidingText extends StatelessWidget {
         return SlideTransition(
           position: slidingAnimation,
           child: const Text(
-            'hhhh',
+            '',
+            style: TextStyle(fontSize: 40, color: Colors.blue),
             textAlign: TextAlign.center,
           ),
         );

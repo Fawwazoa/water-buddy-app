@@ -2,12 +2,11 @@ from google import generativeai as gai
 from flask import Flask, request
 API_KEY = "SECRET"
 
-
 app = Flask(__name__)
 
 MODEL = gai.GenerativeModel('gemini-pro')
 gai.configure(api_key=API_KEY)
-@app.route('/answer')
+@app.route('/answer', methods=['GET', 'POST'])
 def getans():
     user_text = request.json['text']
     history = request.json['history']

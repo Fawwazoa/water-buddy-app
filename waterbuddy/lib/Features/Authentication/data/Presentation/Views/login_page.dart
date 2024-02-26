@@ -1,25 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
-
 import 'package:waterbuddy/Features/Authentication/data/Presentation/Views/widgets/Custom_textfield.dart';
 import 'package:waterbuddy/Features/Authentication/data/Presentation/Views/widgets/custom_button1.dart';
 import 'package:waterbuddy/Features/Authentication/data/Presentation/view_models/login_cubit/login_cubit.dart';
 import 'package:waterbuddy/Features/Authentication/data/Presentation/view_models/login_cubit/login_state.dart';
-import 'package:waterbuddy/Features/Home/presentation/views/home_page.dart';
 
 class LoginPage extends StatelessWidget {
   GlobalKey<FormState> login_key = GlobalKey();
   bool isLoading = false;
   String? email, password;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final FocusNode emailFocusNode = FocusNode();
+  final FocusNode passwordFocusNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
+    void onEmailEditingComplete() {
+      FocusScope.of(context).requestFocus(passwordFocusNode);
+    }
+
+    void onPasswordEditingComplete() {
+      if (login_key.currentState!.validate()) {
+        BlocProvider.of<LoginCubit>(context)
+            .login_user(email: email, password: password);
+      }
+    }
+
     return BlocConsumer<LoginCubit, LoginState>(
       listener: (context, state) {
         if (state is LoginLoading) {
           isLoading = true;
         } else if (state is LoginSuccess) {
-          Get.off(() => const HomePage());
+          Navigator.pushReplacementNamed(context, 'chat_page',
+              arguments: email);
           isLoading = false;
           showSnackBar(context, 'Logged in successfully');
         } else if (state is LoginFaliure) {
@@ -33,7 +47,7 @@ class LoginPage extends StatelessWidget {
             alignment: Alignment.center,
             children: [
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 20),
+                margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: ListView(
                   children: [
                     Center(
@@ -83,6 +97,11 @@ class LoginPage extends StatelessWidget {
                                             fontWeight: FontWeight.bold),
                                       ),
                                       CustomTextfield(
+                                        controller: emailController,
+                                        focusNode: emailFocusNode,
+                                        textInputAction: TextInputAction.next,
+                                        onEditingComplete:
+                                            onEmailEditingComplete,
                                         validator: (data) {
                                           if (data!.isEmpty) {
                                             return 'this field is required';
@@ -112,6 +131,11 @@ class LoginPage extends StatelessWidget {
                                             fontWeight: FontWeight.bold),
                                       ),
                                       CustomTextfield(
+                                        controller: passwordController,
+                                        focusNode: passwordFocusNode,
+                                        textInputAction: TextInputAction.done,
+                                        onEditingComplete:
+                                            onPasswordEditingComplete,
                                         validator: (data) {
                                           if (data!.isEmpty) {
                                             return 'this field is required';
@@ -127,7 +151,7 @@ class LoginPage extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  Row(
+                                  /*  Row(
                                     children: [
                                       Checkbox(
                                         value: true,
@@ -141,7 +165,7 @@ class LoginPage extends StatelessWidget {
                                             fontWeight: FontWeight.w300),
                                       ),
                                     ],
-                                  ),
+                                  ),*/
                                   const SizedBox(
                                     height: 30,
                                   ),

@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:waterbuddy/Features/Authentication/data/Presentation/Views/widgets/Custom_textfield.dart';
 import 'package:waterbuddy/Features/Authentication/data/Presentation/Views/widgets/custom_button1.dart';
 import 'package:waterbuddy/Features/Authentication/data/Presentation/view_models/signup_cubit/signup_cubit.dart';
@@ -14,15 +12,37 @@ class SignUp extends StatelessWidget {
   String? email;
   String? username;
   bool isLoading = false;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final FocusNode nameFocusNode = FocusNode();
+  final FocusNode emailFocusNode = FocusNode();
+  final FocusNode passwordFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
+    void onNameEditingComplete() {
+      FocusScope.of(context).requestFocus(emailFocusNode);
+    }
+
+    void onEmailEditingComplete() {
+      FocusScope.of(context).requestFocus(passwordFocusNode);
+    }
+
+    void onPasswordEditingComplete() {
+      if (signup_key.currentState!.validate()) {
+        BlocProvider.of<RegisterCubit>(context)
+            .register_user(email: email!, password: password!);
+      }
+    }
+
     return BlocConsumer<RegisterCubit, RegisterState>(
       listener: (context, state) {
         if (state is RegisterLoading) {
           isLoading = true;
         } else if (state is RegisterSuccess) {
-          Navigator.pushReplacementNamed(context, 'homepage');
+          Navigator.pushReplacementNamed(context, 'chat_page',
+              arguments: email);
           isLoading = false;
           showSnackBar(context, "The account created successfully");
         } else if (state is RegisterFaliure) {
@@ -36,7 +56,7 @@ class SignUp extends StatelessWidget {
             alignment: Alignment.center,
             children: [
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 20),
+                margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: ListView(
                   children: [
                     Center(
@@ -52,7 +72,7 @@ class SignUp extends StatelessWidget {
                               Text(
                                 'Create an account',
                                 style: TextStyle(
-                                    fontSize: 40,
+                                    fontSize: 35,
                                     fontFamily: 'pacifico',
                                     fontWeight: FontWeight.bold),
                               ),
@@ -77,6 +97,10 @@ class SignUp extends StatelessWidget {
                                           fontWeight: FontWeight.bold),
                                     ),
                                     CustomTextfield(
+                                      controller: nameController,
+                                      focusNode: nameFocusNode,
+                                      textInputAction: TextInputAction.next,
+                                      onEditingComplete: onNameEditingComplete,
                                       validator: (data) {
                                         if (data!.isEmpty) {
                                           return 'this field is required';
@@ -104,6 +128,10 @@ class SignUp extends StatelessWidget {
                                           fontWeight: FontWeight.bold),
                                     ),
                                     CustomTextfield(
+                                      controller: emailController,
+                                      focusNode: emailFocusNode,
+                                      textInputAction: TextInputAction.next,
+                                      onEditingComplete: onEmailEditingComplete,
                                       validator: (data) {
                                         if (data!.isEmpty) {
                                           return 'this field is required';
@@ -131,6 +159,11 @@ class SignUp extends StatelessWidget {
                                           fontWeight: FontWeight.bold),
                                     ),
                                     CustomTextfield(
+                                      controller: passwordController,
+                                      focusNode: passwordFocusNode,
+                                      textInputAction: TextInputAction.done,
+                                      onEditingComplete:
+                                          onPasswordEditingComplete,
                                       validator: (data) {
                                         if (data!.isEmpty) {
                                           return 'this field is required';

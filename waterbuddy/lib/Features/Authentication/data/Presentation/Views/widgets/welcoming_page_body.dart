@@ -17,8 +17,8 @@ class WelPageBody extends StatelessWidget {
           padding: EdgeInsets.all(10),
           child: ListView(
             children: [
-              SizedBox(
-                height: 40,
+              const SizedBox(
+                height: 80,
               ),
               const Image(
                 image: AssetImage(AssetsPath.logo),
@@ -35,7 +35,7 @@ class WelPageBody extends StatelessWidget {
               ),
               const Center(
                 child: Text(
-                  " ------------ Dont you have an acccount? -------------",
+                  " ━━━━━━━━ Don't have an acccount? ━━━━━━━━",
                   style: TextStyle(color: Colors.grey),
                 ),
               ),
