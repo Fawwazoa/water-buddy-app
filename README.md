@@ -23,7 +23,7 @@ WaterBuddy is an app designed to educate children about the importance of water 
      documentation: https://firebase.google.com/
 1. Clone the repository:
    ```bash
-   git clone https://https://github.com/Fawwazoa/water-buddy-app
+   git clone https://github.com/Fawwazoa/water-buddy-app
 2. Navigate to the project directory:
    ```bash
    cd water-buddy-app/waterbuddy
